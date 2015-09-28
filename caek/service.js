@@ -7,7 +7,7 @@ class Service {
   constructor(hipchat) {
     this.hipchat = hipchat;
     this.startCron();
-    this.hipchat.notify('STARTING THE FUCK UP');
+    console.log('Starting up');
   }
 
   startCron() {
