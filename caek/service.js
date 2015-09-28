@@ -1,7 +1,7 @@
 'use strict';
 
-var CronJob = require('cron').CronJob;
-var _ = require('underscore');
+const CronJob = require('cron').CronJob;
+const _ = require('underscore');
 
 class Service {
   constructor(hipchat) {
@@ -12,10 +12,10 @@ class Service {
 
   startCron() {
     this.cron = new CronJob({
-      // 11:45am, Mon-Fri
-      cronTime: '00 45 11 * * 1-5',
+      cronTime: this.cronTime,
       onTick: function() {
-        this.hipchat.notify('GO EAT SOME FUCKING ' + this.getFood());
+        const food = this.getFood().toUpperCase();
+        this.hipchat.notify(`GO EAT SOME FUCKING ${food}`);
       }.bind(this),
       start: true
     });
@@ -27,6 +27,13 @@ class Service {
       'Thai',
       'Nandos'
     ]).sample();
+  }
+
+  get cronTime() {
+    if (process.env.NODE_ENV === 'staging') {
+      return '00 * * * * *'; // Every minute
+    }
+    return '00 45 11 * * 1-5'; // 11:45am, Mon-Fri
   }
 }
 
