@@ -16,7 +16,7 @@ class HipChat {
       json: {
         color: 'green',
         notify: true,
-        message_format: 'html',
+        message_format: 'text',
         message: message
       },
     }, function (error) {
