@@ -1,0 +1,6 @@
+#!/usr/bin/env node
+
+const HipChat = require('../hipchat');
+const hipchat = new HipChat(process.env.CAEK_ROOM_ID, process.env.CAEK_TOKEN);
+
+hipchat.notify(process.argv[2]);
