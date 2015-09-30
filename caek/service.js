@@ -25,7 +25,8 @@ class Service {
     return _([
       'Burritos',
       'Thai',
-      'Nandos'
+      'Nandos',
+      'Omelette Du Fromage'
     ]).sample();
   }
 
