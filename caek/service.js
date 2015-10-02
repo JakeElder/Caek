@@ -11,11 +11,18 @@ class Service {
   }
 
   startCron() {
-    this.cron = new CronJob({
-      cronTime: this.cronTime,
+    this.lunchCron = new CronJob({
+      cronTime: this.lunchTime,
+      onTick: () => {
+        this.hipchat.notify(this.getSentence());
+      },
+      start: true
+    });
+
+    this.beerCron = new CronJob({
+      cronTime: this.beerTime,
       onTick: function() {
-        const food = this.getFood().toUpperCase();
-        this.hipchat.notify(`${food}?`);
+        this.hipchat.notify('Oi! Get Chris a beer');
       }.bind(this),
       start: true
     });
@@ -26,11 +33,29 @@ class Service {
       'Burritos',
       'Thai',
       'Nandos',
+      'Cuban Sandwich',
       'Omelette Du Fromage'
     ]).sample();
   }
 
-  get cronTime() {
+  getSentence() {
+    const food = this.getFood();
+    return _([
+      `Go eat some ${food}?`,
+      `Go get Chris some ${food}?`,
+      `Do you know what time it is? Its ${food} time`,
+      `I can hear Jake's stomach from here... he need some ${food}`
+    ]).sample();
+  }
+
+  get beerTime() {
+    if (process.env.NODE_ENV === 'staging') {
+      return '00 * * * * *'; // Every minute
+    }
+    return '00 45 16 * * 5'; // 04:45pm, Fri
+  }
+
+  get lunchTime() {
     if (process.env.NODE_ENV === 'staging') {
       return '00 * * * * *'; // Every minute
     }
