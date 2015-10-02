@@ -15,7 +15,7 @@ class Service {
       cronTime: this.cronTime,
       onTick: function() {
         const food = this.getFood().toUpperCase();
-        this.hipchat.notify(`GO EAT SOME FUCKING ${food}`);
+        this.hipchat.notify(`${food}?`);
       }.bind(this),
       start: true
     });
